@@ -55,7 +55,7 @@ pub fn encode(packet: impl Packet) -> Result<Bytes, EncodeError> {
 
 pub fn decode<P: Packet, B: Buf>(mut buf: B) -> Result<P, DecodeError> {
     let (mut len, id) = read_header(&mut buf)?;
-    len -= VarInt(len as i32).size_hint().unwrap();
+    len -= VarInt(id as i32).size_hint().unwrap();
     if id != P::id() {
         return Err(DecodeError::InvalidData);
     }
